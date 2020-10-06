@@ -2,22 +2,15 @@ package com.bl.junitMood.HotelReservationSystem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class HotelReservation 
 {
@@ -86,7 +79,7 @@ public class HotelReservation
 		return hotel.getHotelName();
 	}
 	
-	// to find min cost and max rating among total cost of all hotels, regular rates 
+	// to find min cost and max rating among total cost of all hotels
 	public String findBestCheapestHotelInMap() {
 		int minCost = hotelNameToCostMap.entrySet()
 									.stream()
@@ -98,11 +91,12 @@ public class HotelReservation
 						  .max((hotel1, hotel2) -> hotel1.getKey().getRatings() > hotel2.getKey().getRatings() ? 1 : -1)
 						  .get().getKey();
 		
-		System.out.println("Hotel name: "+ hotel.getHotelName());
+		System.out.println("Hotel name: "+ hotel.getHotelName()+ " Ratings: "+hotel.getRatings());
 		return hotel.getHotelName();
 	}
 	
 	// returns the name of the hotel with min total cost and best ratings
+	// isSpecial = 1 when calculating for reward customer and 0 for regular customer
 	public String findCheapestHotelByDates(String sDate, String eDate, ArrayList<Hotel> hotels, boolean isSpecial) {
 		hotels.forEach((hotel) -> {
 			try {
@@ -117,6 +111,7 @@ public class HotelReservation
 		return hotelName;
 	}
 	
+	// finds the hotel with highest ratings
 	public String findBestRatedHotel(ArrayList<Hotel> hotels) {
 		Hotel hotel = hotels.stream()
 							.max(Comparator.comparing(Hotel::getRegularDailyRate))

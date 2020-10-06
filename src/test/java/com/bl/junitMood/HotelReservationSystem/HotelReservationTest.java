@@ -1,9 +1,6 @@
 package com.bl.junitMood.HotelReservationSystem;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,12 +30,14 @@ public class HotelReservationTest
         Assert.assertEquals(true, welcome);
     }
 	
+	//finding cheapest hotel when considering only weekdays
 	@Test
 	public void shouldReturnLakeWood_whenAllRegularWeekdays() {
 		String hotelName = hotelReservation.findCheapestHotel(hotelList);
 		Assert.assertEquals("LakeWood", hotelName);
 	}
 	
+	//finding best hotel for regular customers considering dates range
 	@Test
 	public void shouldReturnBridgewood_whenAllRegularDays() {
 		String startDate = "11/09/2020";
@@ -47,14 +46,16 @@ public class HotelReservationTest
 		Assert.assertEquals("Bridgewood", hotelName);
 	}
 	
+	//finding hotel with best ratings
 	@Test
 	public void shouldReturnRidgewood_whenFindingBestRatedHotel() {
 		String hotelName = hotelReservation.findBestRatedHotel(hotelList);
 		Assert.assertEquals("Ridgewood", hotelName);
 	}
 	
+	//finding best hotel for special customers considering dates range
 	@Test
-	public void shouldReturnRidgewood_whenAllRegularDays_forSpecialCustomers() {
+	public void shouldReturnRidgewood_whenAllDays_forSpecialCustomers() {
 		String startDate = "11/09/2020";
 		String endDate = "12/09/2020";
 		String hotelName = hotelReservation.findCheapestHotelByDates(startDate, endDate, hotelList, true);
