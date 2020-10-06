@@ -16,11 +16,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class HotelReservation 
 {
 	private long numDates;
-	Map<String, Integer> hotelNameToCostMap = new HashMap<>(); 
+	Map<Hotel, Integer> hotelNameToCostMap = new HashMap<>(); 
 	private int hotelCost;
 	
 	public boolean printWelcome() {
@@ -43,7 +45,6 @@ public class HotelReservation
 	    Calendar c = Calendar.getInstance();
 		c.setTime(start);
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-		
 		return dayOfWeek;
 	}
 	
@@ -66,10 +67,11 @@ public class HotelReservation
 			}
 		}
 		System.out.println("data " + hotel.getHotelName() +" "+ hotelCost);
-		hotelNameToCostMap.put(hotel.getHotelName(), hotelCost);
+		hotelNameToCostMap.put(hotel, hotelCost);
 	}
 	
 	//this function finds the hotel with lowest rates and return name of hotel
+	// only weekdays considered
 	public String findCheapestHotel(ArrayList<Hotel> hotels ) {
 		Hotel hotelName = hotels.stream()
 								 .min(Comparator.comparing(Hotel::getRegularDailyRate))
@@ -78,14 +80,20 @@ public class HotelReservation
 		return hotelName.getHotelName();
 	}
 	
-	// to find min cost among total cost of all hotels
-	public String findCheapestHotelInMap() {
-		String hotelName = hotelNameToCostMap.entrySet()
-							            .stream()
-							            .min(Map.Entry.comparingByValue())
-							            .get().getKey();
-		System.out.println(hotelName);
-		return hotelName;
+	// to find min cost and max rating among total cost of all hotels
+	public String findBestCheapestHotelInMap() {
+		int minCost = hotelNameToCostMap.entrySet()
+											.stream()
+								            .min(Map.Entry.comparingByValue())
+								            .get().getValue();
+		
+		Hotel hotel = hotelNameToCostMap.entrySet().stream()
+						  .filter(hotelMap -> minCost == hotelMap.getValue())
+						  .max((hotel1, hotel2) -> hotel1.getKey().getRatings() > hotel2.getKey().getRatings() ? 1 : -1)
+						  .get().getKey();
+		
+		System.out.println("Hotel name: "+ hotel.getHotelName());
+		return hotel.getHotelName();
 	}
 	
 	// returns the name of the hotel with min total cost
@@ -99,7 +107,7 @@ public class HotelReservation
 				System.out.println("Exception msg: " + e.getMessage());
 			}
 		});
-		String hotelName = findCheapestHotelInMap();
+		String hotelName = findBestCheapestHotelInMap();
 		return hotelName;
 	}
 }
