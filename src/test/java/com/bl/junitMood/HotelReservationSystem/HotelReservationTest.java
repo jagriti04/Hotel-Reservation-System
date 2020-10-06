@@ -14,7 +14,7 @@ public class HotelReservationTest
 {
 	Hotel hotel1 = new Hotel("LakeWood",110, 90, 3, 80, 80);
 	Hotel hotel2 = new Hotel("Bridgewood",150, 50, 4, 110, 50);
-	Hotel hotel3 = new Hotel("Ridgewood.",220, 150, 5, 100, 40);
+	Hotel hotel3 = new Hotel("Ridgewood",220, 150, 5, 100, 40);
 	HotelReservation hotelReservation = null;
 	ArrayList<Hotel> hotelList;
 	
@@ -45,5 +45,11 @@ public class HotelReservationTest
 		String endDate = "12/09/2020";
 		String hotelName = hotelReservation.findCheapestHotelByDates(startDate, endDate, hotelList);
 		Assert.assertEquals("Bridgewood", hotelName);
+	}
+	
+	@Test
+	public void shouldReturnRidgewood_whenFindingBestRatedHotel() {
+		String hotelName = hotelReservation.findBestRatedHotel(hotelList);
+		Assert.assertEquals("Ridgewood", hotelName);
 	}
 }

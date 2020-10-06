@@ -73,11 +73,11 @@ public class HotelReservation
 	//this function finds the hotel with lowest rates and return name of hotel
 	// only weekdays considered
 	public String findCheapestHotel(ArrayList<Hotel> hotels ) {
-		Hotel hotelName = hotels.stream()
+		Hotel hotel = hotels.stream()
 								 .min(Comparator.comparing(Hotel::getRegularDailyRate))
 								 .orElse(null);
-		System.out.println("cheapest hotel is: " +hotelName.getHotelName());
-		return hotelName.getHotelName();
+		System.out.println("cheapest hotel is: " +hotel.getHotelName());
+		return hotel.getHotelName();
 	}
 	
 	// to find min cost and max rating among total cost of all hotels
@@ -110,4 +110,13 @@ public class HotelReservation
 		String hotelName = findBestCheapestHotelInMap();
 		return hotelName;
 	}
+	
+	public String findBestRatedHotel(ArrayList<Hotel> hotels) {
+		Hotel hotel = hotels.stream()
+							.max(Comparator.comparing(Hotel::getRegularDailyRate))
+							.orElse(null);
+		return hotel.getHotelName();
+	}
 }
+
+
