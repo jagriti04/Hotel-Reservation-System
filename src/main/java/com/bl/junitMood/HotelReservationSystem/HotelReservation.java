@@ -36,7 +36,6 @@ public class HotelReservation
 		LocalDate start = LocalDate.parse(startDate, formatter);
 		LocalDate end = LocalDate.parse(endDate, formatter);
 		numDates =  ChronoUnit.DAYS.between(start, end);
-	    System.out.println ("Days: "+ numDates);
 	}
 	
 	//this function gives the days (1 for Sunday, 2-Mon...) from given date
@@ -49,24 +48,31 @@ public class HotelReservation
 	}
 	
 	// calculate total cost for a particular hotel
-	public void calculateTotalCost(String startDate, Hotel hotel) throws ParseException {
+	public void calculateTotalCost(String startDate, Hotel hotel, boolean isSpecial) throws ParseException {
 		int dayOfWeek = getDayFromDate(startDate);
 		hotelCost = 0;
 		for(int day = 0; day<= numDates; day++) {
 			dayOfWeek = day + dayOfWeek;
-			System.out.println("Day is: " + dayOfWeek);
 			if (dayOfWeek > 7) {
 				dayOfWeek = 7;
 			}
 			
 			if (dayOfWeek == 1 || dayOfWeek == 7) {			// 1 is for Sunday and 7 for Saturday
-				hotelCost = hotelCost + hotel.getRegularWeekEndRate();
+				if (isSpecial) {
+					hotelCost = hotelCost + hotel.getSpecialWeekEndRate();
+				} else {
+					hotelCost = hotelCost + hotel.getRegularWeekEndRate();
+				}
 			} else {
-				System.out.println(hotel.getRegularDailyRate());
-				hotelCost = hotelCost + hotel.getRegularDailyRate();
+				if (isSpecial) {
+					hotelCost = hotelCost + hotel.getSpecialDailyRate();
+				} else {
+					hotelCost = hotelCost + hotel.getRegularDailyRate();
+				}
 			}
 		}
-		System.out.println("data " + hotel.getHotelName() +" "+ hotelCost);
+		System.out.println("isSprecial: "+ isSpecial + " Cost for hotel- " 
+							+ hotel.getHotelName() +" "+ hotelCost);
 		hotelNameToCostMap.put(hotel, hotelCost);
 	}
 	
@@ -74,18 +80,18 @@ public class HotelReservation
 	// only weekdays considered
 	public String findCheapestHotel(ArrayList<Hotel> hotels ) {
 		Hotel hotel = hotels.stream()
-								 .min(Comparator.comparing(Hotel::getRegularDailyRate))
-								 .orElse(null);
-		System.out.println("cheapest hotel is: " +hotel.getHotelName());
+							 .min(Comparator.comparing(Hotel::getRegularDailyRate))
+							 .orElse(null);
+		System.out.println("Only weekdays and regular, cheapest hotel is: " +hotel.getHotelName());
 		return hotel.getHotelName();
 	}
 	
-	// to find min cost and max rating among total cost of all hotels
+	// to find min cost and max rating among total cost of all hotels, regular rates 
 	public String findBestCheapestHotelInMap() {
 		int minCost = hotelNameToCostMap.entrySet()
-											.stream()
-								            .min(Map.Entry.comparingByValue())
-								            .get().getValue();
+									.stream()
+						            .min(Map.Entry.comparingByValue())
+						            .get().getValue();
 		
 		Hotel hotel = hotelNameToCostMap.entrySet().stream()
 						  .filter(hotelMap -> minCost == hotelMap.getValue())
@@ -96,12 +102,12 @@ public class HotelReservation
 		return hotel.getHotelName();
 	}
 	
-	// returns the name of the hotel with min total cost
-	public String findCheapestHotelByDates(String sDate, String eDate, ArrayList<Hotel> hotels) {
+	// returns the name of the hotel with min total cost and best ratings
+	public String findCheapestHotelByDates(String sDate, String eDate, ArrayList<Hotel> hotels, boolean isSpecial) {
 		hotels.forEach((hotel) -> {
 			try {
 				getNumOfDatesInRange(sDate, eDate);
-				calculateTotalCost(sDate, hotel);
+				calculateTotalCost(sDate, hotel, isSpecial);
 				
 			} catch (ParseException e) {
 				System.out.println("Exception msg: " + e.getMessage());
@@ -117,6 +123,8 @@ public class HotelReservation
 							.orElse(null);
 		return hotel.getHotelName();
 	}
+	
+	
 }
 
 
