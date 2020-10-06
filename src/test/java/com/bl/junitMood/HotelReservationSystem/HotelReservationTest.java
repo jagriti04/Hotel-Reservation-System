@@ -39,4 +39,11 @@ public class HotelReservationTest
 		Assert.assertEquals("LakeWood", hotelName);
 	}
 	
+	@Test
+	public void shouldReturnLakeWood_whenAllRegularDays() {
+		String startDate = "11/09/2020";
+		String endDate = "12/09/2020";
+		String hotelName = hotelReservation.findCheapestHotelByDates(startDate, endDate, hotelList);
+		Assert.assertEquals("LakeWood", hotelName);
+	}
 }
