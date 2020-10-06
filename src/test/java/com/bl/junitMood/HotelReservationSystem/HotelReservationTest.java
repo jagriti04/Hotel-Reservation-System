@@ -12,9 +12,9 @@ import org.junit.Test;
 
 public class HotelReservationTest 
 {
-	Hotel hotel1 = new Hotel("LakeWood",110, 90, 3);
-	Hotel hotel2 = new Hotel("Bridgewood",150, 50, 4);
-	Hotel hotel3 = new Hotel("Ridgewood.",220, 150, 5);
+	Hotel hotel1 = new Hotel("LakeWood",110, 90, 3, 80, 80);
+	Hotel hotel2 = new Hotel("Bridgewood",150, 50, 4, 110, 50);
+	Hotel hotel3 = new Hotel("Ridgewood.",220, 150, 5, 100, 40);
 	HotelReservation hotelReservation = null;
 	ArrayList<Hotel> hotelList;
 	
