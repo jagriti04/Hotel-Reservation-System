@@ -22,6 +22,7 @@ public class HotelReservation
 		return dayOfWeek;
 	}
 	
+	//this function finds the hotel with lowest rates and return name of hotel
 	public String findCheapestHotel(ArrayList<Hotel> hotels ) {
 		Hotel hotelName = hotels.stream()
 								 .min(Comparator.comparing(Hotel::getRegularDailyRate))

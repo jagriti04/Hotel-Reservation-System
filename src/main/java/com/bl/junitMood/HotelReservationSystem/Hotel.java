@@ -4,11 +4,22 @@ public class Hotel {
 	
 	private String hotelName;
 	private int regularDailyRate;
+	private int regularWeekEndRate;
 	
-	
-	Hotel(String hotelName, int regularDailyRate) {
+	Hotel(String hotelName, int regularDailyRate, int regularWeekEndRate) {
 		this.hotelName = hotelName;
 		this.regularDailyRate = regularDailyRate;
+		this.regularWeekEndRate = regularWeekEndRate;
+	}
+
+
+	public int getRegularWeekEndRate() {
+		return regularWeekEndRate;
+	}
+
+
+	public void setRegularWeekEndRate(int regularWeekEndRate) {
+		this.regularWeekEndRate = regularWeekEndRate;
 	}
 
 
