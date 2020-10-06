@@ -6,8 +6,9 @@ package com.bl.junitMood.HotelReservationSystem;
  */
 public class HotelReservation 
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "Welcome to the hotel reservation system." );
-    }
+	public boolean printWelcome() {
+		 System.out.println( "Welcome to the hotel reservation system." );
+		 return true;
+	}
+	
 }
