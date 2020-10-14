@@ -18,7 +18,6 @@ public class HotelReservation {
 	private int hotelCost;
 
 	public boolean printWelcome() {
-		System.out.println("Welcome to the hotel reservation system.");
 		return true;
 	}
 
@@ -63,7 +62,6 @@ public class HotelReservation {
 				}
 			}
 		}
-		System.out.println("isSpecial: " + isSpecial + " & Cost for hotel- " + hotel.getHotelName() + " " + hotelCost);
 		hotelNameToCostMap.put(hotel, hotelCost);
 	}
 
@@ -71,7 +69,6 @@ public class HotelReservation {
 	// only weekdays considered
 	public String findCheapestHotel(ArrayList<Hotel> hotels) {
 		Hotel hotel = hotels.stream().min(Comparator.comparing(Hotel::getRegularDailyRate)).orElse(null);
-		System.out.println("Only weekdays and regular, cheapest hotel is: " + hotel.getHotelName());
 		return hotel.getHotelName();
 	}
 
@@ -82,8 +79,6 @@ public class HotelReservation {
 		Hotel hotel = hotelNameToCostMap.entrySet().stream().filter(hotelMap -> minCost == hotelMap.getValue())
 				.max((hotel1, hotel2) -> hotel1.getKey().getRatings() > hotel2.getKey().getRatings() ? 1 : -1).get()
 				.getKey();
-
-		System.out.println("Hotel name: " + hotel.getHotelName() + " Ratings: " + hotel.getRatings());
 		return hotel.getHotelName();
 	}
 
